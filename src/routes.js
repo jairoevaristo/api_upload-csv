@@ -11,12 +11,13 @@ router.get('/upload', (req, res) => {
 
 router.post('/upload', multer(upload).single('file'), (req, res) => {
   try {
-    console.log(req.file);
-  
-    return res.status(200);
+    const { originalname } = req.file;
     
+
+    return res.status(200).json({ originalname });
+
   } catch (err) {
-    console.log(err.message);
+    return res.status(400).json({ message: err.message });
   }
 });
 
