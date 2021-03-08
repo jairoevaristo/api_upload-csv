@@ -9,10 +9,10 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-module.exports = async () => {
+module.exports = async (email) => {
   await transporter.sendMail({
-    to: "<jairo@developer.com>",
-    from: "teste@teste.com",
+    from: "<jairo@dev.com>",
+    to: [email],
     subject: "Teste",
     html: "<b>Ola bem-vindo</b>"
   })
