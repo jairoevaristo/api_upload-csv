@@ -12,16 +12,5 @@ module.exports = {
       let fileHash = crypto.randomBytes(8).toString('hex');
       cb(null, `${fileHash}-${file.originalname}`);
     }
-  }),
-
-  filefilter: (req, file, cb) => {
-    let typeAccept = ['text/csv'];
-
-    if (typeAccept.includes(file.mimetype)) {
-      cb(null, true);
-    }
-    else {
-      cb(new Error('Invalid file type'));
-    }
-  }
+  })
 }

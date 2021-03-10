@@ -11,5 +11,5 @@ app.use(cors());
 app.use(logger('dev'));
 app.use('/api/v1', router);
 
-app.listen(3000, () => console.log('Server is running'));
+app.listen(3001, () => console.log('Server is running'));
 

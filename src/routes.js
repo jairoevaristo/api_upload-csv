@@ -4,19 +4,18 @@ const fs = require('fs');
 const path = require('path');
 const result = [];
 
-const upload = require('./config/multer');
+const configUpload = require('./config/multer');
 const sendEmail = require('./config/nodemailer');
 
 const router = Router();
 
 router.get('/upload', (req, res) => {
-  res.send('Hello Word');
+  return res.status(200).json({ message: 'Hello Word' });
 });
 
-router.post('/upload', multer(upload).single('file'), async (req, res) => {
+router.post('/upload', multer(configUpload).single('file'), async (req, res) => {
   try {
-    const { originalname, filename } = req.file;
-
+    const { filename } = req.file;
 
     const csvEmails = fs.readFileSync(path.resolve(__dirname, '..', 'upload', `${filename}`), 'utf-8');
 
@@ -28,12 +27,13 @@ router.post('/upload', multer(upload).single('file'), async (req, res) => {
       } 
     }
 
-    await sendEmail(result).then(() => console.log('Done...'));
+    await sendEmail({ email: result, file: filename })
+    .then(() => console.log('Done...'));
 
-    return res.status(200).json({ originalname });
+    return res.status(200).json({ file: req.file });
 
   } catch (err) {
-    return res.status(400).json({ message: err.message });
+    return res.status(400).json({ message: "Error >> " + err });
   }
 });
 
